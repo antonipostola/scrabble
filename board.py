@@ -13,7 +13,7 @@ from typing import Literal, final, override
 
 words: str
 
-with open("./words/english_1k.txt", "r") as f:
+with open("./words/english_10k.txt", "r") as f:
     words = f.read()
 
 
@@ -147,7 +147,7 @@ class Board:
                         if left == anchor[0] and right == anchor[1]:
                             right += 1
 
-                        max_right = valid_rights[right_i+1] if right_i < len(valid_rights)-1 else 14
+                        max_right = valid_rights[right_i+1]-2 if right_i < len(valid_rights)-1 else 14
 
                         matching_words = self.get_matches(line[left:right], max_right-right, rack)
                         moves = moves + [(left, word) for word in matching_words]
@@ -178,28 +178,27 @@ def main():
 
     rack = list("eeauinms")
 
+    random.seed(5)
+
     print(f"{rack = }")
 
     for row_n in range(15):
         print(" ".join(board.get_row(row_n).replace(" ", "-")))
 
-    for i in range(1):
+    for i in range(10):
 
         t_before = time.time()
 
         moves = board.get_possible_moves(rack)
         chosen_move = random.choice(moves)
 
-        for move in moves:
-            print(move)
+        print(chosen_move)
 
-        # print(chosen_move)
-
-        # board.apply_move(chosen_move)
+        board.apply_move(chosen_move)
 
 
-        # for row in range(15):
-        #     print(" ".join(board.get_row(row).replace(" ", "-")))
+        for row in range(15):
+            print(" ".join(board.get_row(row).replace(" ", "-")))
 
         t_after = time.time()
 
